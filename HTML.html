@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Aniversário, Meu Amor!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <style>
+        /* Variáveis CSS para facilitar mudanças de cor */
+        :root {
+            --primary-color: #ff69b4; /* Rosa vibrante - cor principal */
+            --secondary-color: #ffe4e1; /* Rosa claro - fundo */
+            --text-color: #444; /* Cor de texto mais suave */
+            --highlight-color: #ffb6c1; /* Rosa mais claro para destaques */
+            --button-hover-color: #c94c8a; /* Rosa mais escuro no hover */
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif; /* Fonte mais legível para o corpo */
+            text-align: center;
+            margin: 0;
+            padding: 0; /* Remove padding padrão do body */
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--highlight-color) 100%); /* Gradiente suave */
+            color: var(--text-color);
+            overflow-x: hidden; /* Evita scroll horizontal em algumas animações */
+            min-height: 100vh; /* Garante que o gradiente cubra a tela inteira */
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Centraliza o conteúdo principal */
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9); /* Fundo semi-transparente para o conteúdo */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Sombra mais suave */
+            max-width: 90%;
+            width: 600px; /* Largura máxima para o container */
+            box-sizing: border-box; /* Inclui padding na largura total */
+            position: relative; /* Necessário para posicionamento absoluto interno */
+        }
+
+        h1, h2 {
+            font-family: 'Dancing Script', cursive; /* Fonte mais romântica para títulos */
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-weight: 700; /* Negrito para títulos */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05); /* Sombra suave no texto */
+        }
+
+        h1 {
+            font-size: 3em; /* Tamanho maior para o título principal */
+        }
+
+        h2 {
+            font-size: 2em; /* Tamanho para subtítulos */
+        }
+
+        p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        .page {
+            display: none;
+            opacity: 0; /* Começa invisível para a animação */
+            transition: opacity 0.8s ease-in-out; /* Transição de opacidade */
+        }
+
+        .page.active {
+            display: block;
+            opacity: 1; /* Fica visível */
+            animation: fadeIn 0.8s ease-in-out; /* Adiciona animação de entrada */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+        button {
+            padding: 12px 25px; /* Ajusta padding */
+            font-size: 1.1em; /* Tamanho de fonte ajustado */
+            cursor: pointer;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 25px; /* Botões mais redondos */
+            margin: 10px; /* Espaçamento entre botões */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Transição suave e leve escala */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra nos botões */
+        }
+
+        button:hover {
+            background-color: var(--button-hover-color);
+            transform: translateY(-3px); /* Leve movimento para cima no hover */
+        }
+
+        button:active {
+             transform: translateY(0); /* Retorna à posição original no clique */
+        }
+
+        input[type="text"] {
+            padding: 12px;
+            font-size: 1em;
+            border-radius: 8px;
+            border: 1px solid var(--primary-color); /* Borda com a cor principal */
+            margin-top: 10px;
+            width: calc(100% - 24px); /* Ajusta largura para incluir padding */
+            max-width: 300px; /* Largura máxima para o input */
+            box-sizing: border-box;
+        }
+
+        #simBtn {
+            position: relative; /* Manter como relative no CSS, o JS muda para absolute */
+        }
+
+        .heart-selector div {
+            cursor: pointer;
+            font-size: 3em; /* Corações maiores */
+            transition: transform 0.3s ease; /* Transição para o hover */
+            user-select: none; /* Impede seleção de texto */
+        }
+
+        .heart-selector div:hover {
+            transform: scale(1.2); /* Aumenta o coração no hover */
+        }
+
+        .photo-gallery {
+            display: grid; /* Usar Grid para melhor layout */
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Colunas responsivas */
+            gap: 15px;
+            margin-top: 20px;
+            padding: 10px; /* Padding interno para a galeria */
+        }
+
+        .photo-gallery img {
+            width: 100%; /* Imagem ocupa a largura da coluna */
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease; /* Transição para hover nas fotos */
+        }
+
+        .photo-gallery img:hover {
+             transform: scale(1.05); /* Leve zoom nas fotos no hover */
+        }
+
+        /* Estilos para o efeito de partículas (opcional, adiciona um toque mágico) */
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            pointer-events: none; /* Não interfere com cliques */
+            animation: float 4s ease-in infinite;
+            opacity: 0.6;
+        }
+
+         .particle:nth-child(2n) {
+            width: 6px;
+            height: 6px;
+            background-color: var(--highlight-color);
+            animation-duration: 5s;
+            animation-delay: -2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+         /* Estilo para o container da página de processamento */
+        #page2_1 p {
+            font-style: italic; /* Deixa a mensagem de "processando" em itálico */
+            font-size: 1.3em !important; /* Garante tamanho maior */
+            color: var(--primary-color) !important; /* Garante cor principal */
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <div class="particle" style="top: 10%; left: 20%;"></div>
+    <div class="particle" style="top: 30%; left: 80%;"></div>
+    <div class="particle" style="top: 60%; left: 40%;"></div>
+    <div class="particle" style="top: 80%; left: 10%;"></div>
+    <div class="particle" style="top: 50%; left: 90%;"></div>
+
+
+    <div class="container">
+        <div id="page1" class="page active">
+            <h1>Feliz Aniversário, meu amor!</h1>
+            <p>Preparei algo especial para você...</p>
+            <button onclick="nextPage('page2')">Começar</button>
+        </div>
+
+        <div id="page2" class="page">
+            <h2>Primeiro, qual o seu nome, amor?</h2>
+            <input type="text" id="nomeInput" placeholder="Digite seu nome...">
+            <button onclick="processarNome()">Continuar</button>
+        </div>
+
+        <div id="page2_1" class="page">
+            <h2>Mas é boba</h2>
+            <p id="nomeProcessadoMensagem"></p>
+            <button onclick="nextPage('page3_1')" style="display: none;">Ver a surpresa</button>
+        </div>
+
+        <div id="page3_1" class="page">
+            <h2>Escolha um coração aí muié</h2>
+            <div class="heart-selector" style="display: flex; justify-content: center; gap: 30px; margin-top: 30px;">
+                <div onclick="mostrarMensagem('mensagem1')" style="color: #e74c3c;">❤️</div> <div onclick="mostrarMensagem('mensagem2')" style="color: #ff8fab;">💖</div> <div onclick="mostrarMensagem('mensagem3')" style="color: #e74c3c;">❤️</div> </div>
+            <p id="mensagemExibida" style="margin-top: 30px; font-size: 1.3em; display: none;"></p>
+            <button id="proximoMensagemBtn" onclick="nextPage('page3')" style="display: none;">Próximo passo</button>
+        </div>
+
+        <div id="page3" class="page">
+            <h2>Agora a pergunta... Você aceita casar comigo um dia?</h2>
+            <button id="simBtn" onclick="tentarSim()">Sim</button>
+            <button id="naoBtn" onclick="forcarSim()">Não</button>
+            <p id="respostaCorrigida" style="display: none; margin-top: 20px; font-weight: bold; color: var(--primary-color);">Amém né mulher!</p>
+        </div>
+
+        <div id="page4" class="page">
+            <h2>Meu amor,</h2>
+            <p>Feliz aniversário meu amor! Eu te amo demais e sempre vou estar contigo te apoiando!</p>
+            <p>Que você teja muita saúde e sempre fique comigo meu amor! EU TE AMOOO</p>
+            <button onclick="nextPage('page5')">Ver algumas de nossas memórias...</button>
+        </div>
+
+        <div id="page5" class="page">
+            <h2>Nós queiroz</h2>
+            <div class="photo-gallery" id="galleryContainer">
+                </div>
+            <button onclick="previousPage('page4')">Voltar</button>
+            <button onclick="nextPage('page6')">A Mensagem Final</button>
+        </div>
+
+         <div id="page6" class="page">
+            <h2>Para sempre, meu amor</h2>
+            <p>Espero que tenha gostado dessa pequena surpresa. Cada parte dela foi feita pensando em você, minha princesa!</p>
+            <p style="font-size: 1.5em; font-weight: bold; color: var(--primary-color);">Com todo o meu amor, <br> Pedrão ❤️</p>
+             <button onclick="alert('Obrigado por ser você, meu amor! Feliz Aniversário mais uma vez!');">Finalizar</button>
+        </div>
+
+    </div> <script>
+    let currentPage = 'page1';
+    const pages = document.querySelectorAll('.page');
+    const container = document.querySelector('.container');
+
+    // Array com os IDs das páginas na ordem correta
+    const pageOrder = ['page1', 'page2', 'page2_1', 'page3_1', 'page3', 'page4', 'page5', 'page6'];
+
+    function showPage(id) {
+        // Encontra a página atual e remove a classe 'active'
+        const currentPageElement = document.getElementById(currentPage);
+        if (currentPageElement) {
+            currentPageElement.classList.remove('active');
+             currentPageElement.style.display = 'none'; // Oculta após a transição (ou imediatamente antes de mostrar a próxima)
+        }
+
+        // Encontra a próxima página e adiciona a classe 'active'
+        const nextPageElement = document.getElementById(id);
+        if (nextPageElement) {
+             nextPageElement.style.display = 'block'; // Mostra antes de adicionar active para a transição
+            setTimeout(() => { // Pequeno delay para garantir que o display: block seja processado antes da animação
+                 nextPageElement.classList.add('active');
+                 currentPage = id; // Atualiza a página atual
+                 // Ajusta a altura do container para a nova página
+                 ajustarAlturaContainer();
+            }, 50); // Ajuste o tempo se necessário
+        }
+    }
+
+     function nextPage(nextId) {
+        showPage(nextId);
+    }
+
+    function previousPage(prevId) {
+        showPage(prevId);
+    }
+
+    // Função para ajustar a altura do container dinamicamente
+    function ajustarAlturaContainer() {
+         const activePage = document.getElementById(currentPage);
+         if (activePage && container) {
+             // A altura é ajustada automaticamente pelo CSS flexbox no body e no container
+             // Essa função pode ser usada se houver necessidade de ajustes mais finos ou animação na altura
+             // container.style.height = activePage.offsetHeight + 80 + 'px'; // Exemplo: altura da página + padding
+         }
+    }
+
+    // --- FUNÇÃO processarNome CORRIGIDA ---
+    function processarNome() {
+        const nomeInput = document.getElementById('nomeInput');
+        const nomeProcessadoMensagem = document.getElementById('nomeProcessadoMensagem');
+        const proximoBtnPage2 = document.querySelector('#page2 > button'); // Botão "Continuar" na página 2
+        const proximoBtnPage2_1 = document.querySelector('#page2_1 button'); // Botão "Ver a surpresa" na página 2_1
+
+        // 1. Esconde o input e o botão "Continuar" na página atual (página 2)
+        nomeInput.style.display = 'none';
+        proximoBtnPage2.style.display = 'none';
+
+        // 2. Define a mensagem que aparecerá na próxima página (página 2_1)
+        nomeProcessadoMensagem.innerText = "Meu Deus! A resposta é 'Mulher do senhor pirocudo dos anéis', não aprende mesmo!";
+
+        // 3. Agora, CHAMA a função para ir para a próxima página (página 2_1)
+        nextPage('page2_1');
+
+        // 4. Depois de ir para a página 2_1, espera um pouco e mostra o botão dessa página
+        // Isso dá tempo para a mensagem "Pensando aqui..." aparecer antes do botão
+        setTimeout(() => {
+            proximoBtnPage2_1.style.display = 'block'; // Mostra o botão "Ver a surpresa"
+        }, 2000); // 2000 ms = 2 segundos de espera
+    }
+    // --- FIM DA FUNÇÃO processarNome CORRIGIDA ---
+
+
+    function mostrarMensagem(mensagemId) {
+        let mensagem = "";
+        const mensagemExibida = document.getElementById('mensagemExibida');
+        const proximoMensagemBtn = document.getElementById('proximoMensagemBtn');
+
+        // Remove a mensagem anterior e oculta
+        mensagemExibida.style.opacity = 0;
+        mensagemExibida.style.display = 'none';
+
+
+        if (mensagemId === 'mensagem1') {
+            mensagem = "Escolha outro, logo o da esquerda do Lula";
+        } else if (mensagemId === 'mensagem2') {
+            mensagem = "Meu Pedrão sempre vai te amar!! ❤️";
+        } else if (mensagemId === 'mensagem3') {
+            mensagem = "Escolha outro, pegou logo o mais paia";
+        }
+
+        // Adiciona a nova mensagem
+        mensagemExibida.innerText = mensagem;
+
+        // Mostra a mensagem com um pequeno delay e animação
+        setTimeout(() => {
+             mensagemExibida.style.display = 'block';
+             setTimeout(() => {
+                mensagemExibida.style.opacity = 1;
+             }, 50); // Pequeno delay para a opacidade fazer efeito
+            proximoMensagemBtn.style.display = 'block'; // Mostra o botão "Próximo"
+        }, 500); // Espera 0.5 segundos antes de mostrar a mensagem
+    }
+
+    let clickCount = 0;
+    const simButton = document.getElementById('simBtn');
+    const naoButton = document.getElementById('naoBtn');
+    const respostaCorrigida = document.getElementById('respostaCorrigida');
+    let simTimeout = null; // Para limpar o timeout se necessário
+
+    function tentarSim() {
+         clickCount++;
+        respostaCorrigida.style.display = 'none'; // Esconde a mensagem corrigida
+
+        if (clickCount < 3) { // Aumentei para 3 cliques para ficar mais desafiador/divertido
+            // Garante que o botão está posicionado absolutamente dentro do container
+             simButton.style.position = 'absolute';
+             const containerRect = container.getBoundingClientRect(); // Pega as dimensões do container
+             const buttonRect = simButton.getBoundingClientRect(); // Pega as dimensões do botão
+
+             // Calcula posições aleatórias dentro dos limites do container (com uma margem)
+            const margin = 20; // Margem para não colar na borda
+            const maxX = containerRect.width - buttonRect.width - margin * 2;
+            const maxY = containerRect.height - buttonRect.height - margin * 2;
+
+             // Posição relativa ao container
+            const randomX = Math.random() * maxX + margin;
+            const randomY = Math.random() * maxY + margin;
+
+             simButton.style.left = `${randomX}px`;
+             simButton.style.top = `${randomY}px`;
+
+             // Adiciona um efeito visual rápido ao botão "Não" (opcional)
+             naoButton.style.transform = 'scale(1.1)';
+             setTimeout(() => naoButton.style.transform = 'scale(1)', 100);
+
+
+        } else {
+            // Usuário "pegou" o botão "Sim"
+            simButton.style.position = 'static'; // Volta para posição normal no fluxo
+            simButton.style.left = '';
+            simButton.style.top = '';
+            simButton.style.display = 'none'; // Esconde o botão "Sim"
+            naoButton.style.display = 'none'; // Esconde o botão "Não"
+             respostaCorrigida.innerText = 'Que bom meu amorzinho!'; // Mensagem final ao "pegar" o sim
+            respostaCorrigida.style.display = 'block'; // Mostra a mensagem final
+
+             // Avança para a próxima página após um delay
+            simTimeout = setTimeout(() => nextPage('page4'), 3000); // Avança após 3 segundos
+        }
+    }
+
+    function forcarSim() {
+        // Oculta os botões
+        simButton.style.display = 'none';
+        naoButton.style.display = 'none';
+
+        // Exibe a mensagem "Você disse sim!"
+        respostaCorrigida.innerText = 'Tem essa não, vai casar comigo sim! kkkkk';
+        respostaCorrigida.style.display = 'block';
+
+        // Avança para a próxima página após um delay
+        simTimeout = setTimeout(() => nextPage('page4'), 3000); // Avança após 3 segundos
+    }
+
+    // Adiciona placeholders para as fotos na galeria
+    function populateGallery() {
+        const gallery = document.getElementById('galleryContainer');
+        // Substitua estas URLs pelas URLs reais das suas fotos
+        const photos = [
+            'https://via.placeholder.com/200x150?text=Nossa+Foto+1', /* Substitua */
+            'https://via.placeholder.com/200x150?text=Nossa+Foto+2', /* Substitua */
+            'https://via.placeholder.com/200x150?text=Nossa+Foto+3', /* Substitua */
+            'https://via.placeholder.com/200x150?text=Nossa+Foto+4', /* Substitua */
+            'https://via.placeholder.com/200x150?text=Nossa+Foto+5', /* Substitua */
+            'https://via.placeholder.com/200x150?text=Nossa+Foto+6'  /* Substitua */
+        ];
+
+        gallery.innerHTML = photos.map(photoUrl => `
+            <img src="${photoUrl}" alt="Nossa foto especial">
+        `).join('');
+    }
+
+    // Inicialização: mostra a primeira página e popula a galeria
+    document.addEventListener('DOMContentLoaded', () => {
+        showPage('page1');
+        populateGallery();
+         ajustarAlturaContainer(); // Ajusta a altura inicial do container
+    });
+
+
+    // Opcional: Limpar timeout se o usuário sair da página rapidamente (mais avançado)
+     window.addEventListener('beforeunload', () => {
+         if (simTimeout) {
+             clearTimeout(simTimeout);
+         }
+     });
+
+
+</script>
+
+</body>
+</html>
